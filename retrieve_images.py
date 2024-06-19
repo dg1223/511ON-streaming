@@ -6,9 +6,15 @@ import asyncio
 import aiohttp
 from PIL import Image
 
+def get_response(api):
+    return requests.get(api).json()
+
+def get_number_of_cameras(api):
+    return get_response(api)["recordsTotal"]
+    
 
 def get_camera_ids(api):
-    response = requests.get(api).json()
+    response = get_response(api)
     cameras = [camera for camera in response["data"]]
     camera_ids = [camera["id"] for camera in cameras]
     
@@ -40,7 +46,9 @@ if __name__ == "__main__":
     
     api = f'https://511on.ca/List/GetData/Cameras?query={{"columns":[],"start":{start},"length":{length}}}'
     
-    camera_ids = get_camera_ids(api)
+    # camera_ids = get_camera_ids(api)
     
-    # Fetch images asynchronously
-    asyncio.run(get_images_from_cctv(url, camera_ids))
+    # # Fetch images asynchronously
+    # asyncio.run(get_images_from_cctv(url, camera_ids))
+    
+    print(get_number_of_cameras(api))
