@@ -23,20 +23,16 @@ def get_images_from_cctv(url, camera_ids):
             image.save(image_name)
 
 if __name__ == "__main__":
-    url = "https://511on.ca/map/Cctv/"
+    url = "https://511on.ca/map/cctv/"
     headers = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0",
     }
     '''
-    TODO:
-    1. start and length should be parameters
-    2. images should be retrieved in batches
+    TODO: images should be retrieved asynchronously in batches
     '''
-    api = 'https://511on.ca/List/GetData/Cameras?query={"columns":[{"data":null,"name":""},{"name":"sortId","s":true},{"name":"cityName","s":true},{"name":"roadway","s":true},{"data":4,"name":""}],"order":[{"column":1,"dir":"asc"},{"column":3,"dir":"asc"}],"start":0,"length":20,"search":{"value":""}}&lang=en'
+    start = 0
+    length = 5
+    api = f'https://511on.ca/List/GetData/Cameras?query={{"columns":[],"start":{start},"length":{length}}}'
     
     camera_ids = get_camera_ids(url, headers, api)
     get_images_from_cctv(url, camera_ids)
-
-
-
-        
