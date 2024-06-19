@@ -33,5 +33,5 @@ if __name__ == "__main__":
     
     api = f'https://511on.ca/List/GetData/Cameras?query={{"columns":[],"start":{start},"length":{length}}}'
     
-    camera_ids = get_camera_ids(url, headers, api)
+    camera_ids = get_camera_ids(url, api)
     get_images_from_cctv(url, camera_ids)
