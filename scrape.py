@@ -6,7 +6,7 @@ import io
 from PIL import Image
 
 
-def get_camera_ids(url, headers, api):
+def get_camera_ids(url, api):
     response = requests.get(api).json()
     cameras = [camera for camera in response["data"]]
     camera_ids = [camera["id"] for camera in cameras]
