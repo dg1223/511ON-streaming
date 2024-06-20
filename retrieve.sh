@@ -1,8 +1,15 @@
 #!/bin/bash
 
-python retrieve_images.py get_total_cameras
+get_total_cameras() {
+    python retrieve_images.py get_total_cameras
+}
 
-TOTAL_CAMERAS=$(cat total_cameras.txt)
+if [[ $# -eq 1 ]]; then
+    TOTAL_CAMERAS=$1
+else
+    get_total_cameras
+    TOTAL_CAMERAS=$(cat total_cameras.txt)
+fi
 
 # Check if TOTAL_CAMERAS is set and is a valid number
 if ! [[ "${TOTAL_CAMERAS}" =~ ^[0-9]+$ ]]; then
