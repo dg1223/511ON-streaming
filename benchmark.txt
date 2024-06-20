@@ -1,0 +1,184 @@
+Outcome:
+1. Batch streaming slows down asynchronous processing.
+   > When fetching images asynchronously, don't batch process.
+2. Server is rate limited to 100 requests per API call.
+   > Must perform batch processing to get all images.
+   > Batch size should be max rate limit, i.e. 100
+
+------------
+BENCHMARK #1
+------------
+Total images = 50
+
+>> WINNER -> Batch size 50 <<
+
+Batch size = 5
+
+real    0m25.141s
+user    0m4.747s
+sys     0m0.692s
+
+After fixing logic
+------------------
+real    0m22.892s
+user    0m4.647s
+sys     0m0.685s
+
+
+Batch size = 10
+
+real    0m12.713s
+user    0m3.114s
+sys     0m0.466s
+
+real    0m19.312s
+user    0m1.777s
+sys     0m0.204s
+
+After fixing logic
+------------------
+real    0m24.234s
+user    0m3.165s
+sys     0m0.355s
+
+
+Batch size = 15
+
+real    0m31.539s
+user    0m1.725s
+sys     0m0.182s
+
+real    0m21.095s
+user    0m1.812s
+sys     0m0.183s
+
+After fixing logic
+------------------
+real    0m14.803s
+user    0m2.820s
+sys     0m0.266s
+
+real    0m17.508s
+user    0m2.632s
+sys     0m0.444s
+
+
+Batch size = 20
+
+real    0m20.088s
+user    0m1.720s
+sys     0m0.177s
+
+real    0m22.079s
+user    0m1.748s
+sys     0m0.220s
+
+real    0m17.744s
+user    0m1.791s
+sys     0m0.188s
+
+After fixing logic
+------------------
+real    0m24.554s
+user    0m2.464s
+sys     0m0.286s
+
+real    0m20.921s
+user    0m2.399s
+sys     0m0.312s
+
+
+Batch size = 50
+
+real    0m19.249s
+user    0m1.765s
+sys     0m0.242s
+
+After fixing logic
+------------------
+real    0m19.683s
+user    0m1.846s
+sys     0m0.149s
+
+real    0m17.032s
+user    0m1.754s
+sys     0m0.185s
+
+
+------------
+BENCHMARK #2
+------------
+Total images = 100
+
+>> WINNER -> Batch size 100 <<
+
+Batch size = 50
+
+real    0m45.311s
+user    0m3.846s
+sys     0m0.274s
+
+real    0m54.642s
+user    0m3.721s
+sys     0m0.302s
+
+
+Batch size = 100
+
+real    0m23.968s
+user    0m3.363s
+sys     0m0.316s
+
+real    0m27.563s
+user    0m3.187s
+sys     0m0.258s
+
+
+------------
+BENCHMARK #3
+------------
+Total images = 200
+
+>> WINNER -> Batch size = Server's rate limit <<
+
+Batch size = 100
+
+real    0m39.142s
+user    0m6.311s
+sys     0m0.470s
+
+
+Batch size = 200
+
+* fetched only 100 images
+real    0m21.927s
+user    0m3.126s
+sys     0m0.251s
+
+-> possible rate limit = 100 images per API call
+
+Is it an anomaly?
+Ans: YES, fetched 100 files each time
+
+Total images = 105
+Batch size = 105
+
+real    0m31.641s
+user    0m3.170s
+sys     0m0.290s
+
+real    0m25.802s
+user    0m3.531s
+sys     0m0.212s
+
+
+------------
+BENCHMARK #4
+------------
+Total images = 859
+
+Batch size = 100
+
+real    5m23.718s
+user    0m40.891s
+sys     0m3.612s
