@@ -3,8 +3,10 @@
 # @param 1: total_cameras (number of images to retrieve)
 # @param 2: starting point to start fetching images from
 
+PYTHON_SCRIPT="/home/shamir/Documents/GitHub/511ON-streaming/retrieve_images.py"
+
 get_total_cameras() {
-    python retrieve_images.py get_total_cameras
+    python ${PYTHON_SCRIPT} get_total_cameras
 }
 
 # Server is rate limited to 100 requests per API call.
@@ -13,10 +15,12 @@ BATCH_SIZE=100
 START_POINT=0
 
 if [[ $# -eq 1 ]]; then
-    TOTAL_CAMERAS=$1
+    START_POINT=$1
+    get_total_cameras
+    TOTAL_CAMERAS=$(cat total_cameras.txt)
 elif [[ $# -eq 2 ]]; then
-    TOTAL_CAMERAS=$1
-    START_POINT=$2
+    START_POINT=$1
+    TOTAL_CAMERAS=$2
 else
     get_total_cameras
     TOTAL_CAMERAS=$(cat total_cameras.txt)
@@ -51,6 +55,6 @@ for((i = 0; i < TOTAL_CAMERAS; i += BATCH_SIZE)); do
 
     echo -e "\nBatch number: ${BATCH_NUMBER}"
 
-    python retrieve_images.py fetch_images ${START} ${LENGTH}
+    python ${PYTHON_SCRIPT} fetch_images ${START} ${LENGTH}
 
 done
