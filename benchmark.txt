@@ -3,7 +3,7 @@ Outcome:
    > When fetching images asynchronously, don't batch process.
 2. Server is rate limited to 100 requests per API call.
    > Must perform batch processing to get all images.
-   > Batch size should be max rate limit, i.e. 100
+   > Max batch size (100) provides the best performance.
 
 ------------
 BENCHMARK #1
