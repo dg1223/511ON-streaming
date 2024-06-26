@@ -8,6 +8,7 @@ import asyncio
 import aiohttp
 from PIL import Image
 
+storage_path = "/home/shamir/Documents/GitHub/511ON-streaming/"
 
 def get_response(api):
     return requests.get(api).json()
@@ -27,11 +28,12 @@ async def fetch_images(session, url, camera_id):
     image_url = url + camera_id
     if image_url.startswith("https"):
         image_name = "511ON_image_" + camera_id + ".jpeg"
+        full_filepath = storage_path + image_name
         async with session.get(image_url) as response:
             image_binary = await response.read()
-            image = Image.open(io.BytesIO(image_binary))
             try:
-                image.save(image_name)
+                image = Image.open(io.BytesIO(image_binary))
+                image.save(full_filepath)
             except Exception as e:
                 print(e)
                 
