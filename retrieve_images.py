@@ -56,8 +56,7 @@ if __name__ == "__main__":
     if command == "get_total_cameras":
         start = 0
         length = 1
-        api = f'https://511on.ca/List/GetData/Cameras?\
-            query={{"columns":[],"start":{start},"length":{length}}}'
+        api = f'https://511on.ca/List/GetData/Cameras?query={{"columns":[],"start":{start},"length":{length}}}'
             
         total_cameras = get_number_of_cameras(api)
         with open("total_cameras.txt", "w") as f:
